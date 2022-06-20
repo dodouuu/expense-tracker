@@ -57,16 +57,6 @@ router.post('/register', (req, res) => {
     return res.render('register', { errors, body })
   }
 
-  let userNumber = 0
-  User.find({}).count((error, userCount) => {
-    if (error) {
-      console.error(error)
-    } else {
-      userNumber = userCount
-      // console.log('uN=', userNumber)
-    }
-  })
-
   User.findOne(
     {
       account: body.account
@@ -77,21 +67,30 @@ router.post('/register', (req, res) => {
       if (user !== null) { // find a same account
         errors.push({ message: 'the Account is registered' })
         res.render('register', { errors, body }) // keep data in fields, dont clear
-      } else { // cant find a same account, register a new account
-        bcrypt.genSalt(10) // saltRounds = 10
-          .then(salt => bcrypt.hash(body.password, salt))
-          .then(hash => {
-            const newUser = new User({
-              id: userNumber + 1,
-              name: body.name,
-              account: body.account,
-              password: hash // use hash replace password
-            })
-            newUser.save()
-              .then(() => res.redirect('/'))
-              .catch(error => console.error(error))
-          })
+      } else { // account not exist
+        // register a new account
+        // gen id = userCount + 1
+        User.find({}).count((error, userCount) => {
+          if (error) {
+            console.error(error)
+          } else {
+            // console.log('uC=', userCount)
 
+            bcrypt.genSalt(10) // saltRounds = 10
+              .then(salt => bcrypt.hash(body.password, salt))
+              .then(hash => {
+                const newUser = new User({
+                  id: userCount + 1,
+                  name: body.name,
+                  account: body.account,
+                  password: hash // use hash replace password
+                })
+                newUser.save()
+                  .then(() => res.redirect('/'))
+                  .catch(error => console.error(error))
+              })
+          }
+        })
       }
     })
 })

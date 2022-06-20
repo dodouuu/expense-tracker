@@ -5,6 +5,8 @@ const router = express.Router()
 const home = require('./modules/home')
 // import routes/modules/users.js
 const users = require('./modules/users')
+// import routes/modules/records.js
+const records = require('./modules/records')
 
 // import routes/modules/auth.js
 const auth = require('./modules/auth')
@@ -16,6 +18,9 @@ router.use('/users', users)
 
 // make request url begin with /auth direct to routes/modules/auth.js
 router.use('/auth', auth)
+
+// make request url begin with /records direct to routes/modules/records.js
+router.use('/records', authenticator, records)
 
 // make request url begin with / direct to routes/modules/home.js
 router.use('/', authenticator, home)

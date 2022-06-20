@@ -1,13 +1,19 @@
-// 引用 Express
 const express = require('express')
-// 引用 Express 路由器
 const router = express.Router()
 // import Record model
 const Record = require('../../models/record')
 
 // define home page views/index.hbs route
-router.get('/', (req, res) => {
-  res.render('index')
+router.get('/', async (req, res) => {
+
+  try {
+    const userId = req.user.id
+    const records = await Record.find({ userId }).lean()
+    res.render('index', { records })
+  } catch (error) {
+    console.error(error)
+  }
+
   // const userId = req.user._id
   // Restaurant.find({ userId })
   //   .lean()

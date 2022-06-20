@@ -81,11 +81,17 @@ module.exports = app => {
           // gen 8 digits random number
           const salt = await bcrypt.genSalt(10) // saltRounds = 10
           const hash = await bcrypt.hash(randomPassword, salt)
+
+          // gen id = userNumber + 1
+          const userNumber = await User.find({}).countDocuments()
+          // console.log('uN=', userNumber)
+
           const newUser = await User.create(
             {
+              id: userNumber + 1,
               name,
               account: email,
-              password: hash
+              password: hash // use hash replace password
             }
           )
           return done(null, newUser)
