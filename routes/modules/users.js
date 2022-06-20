@@ -25,49 +25,63 @@ router.get('/logout', (req, res) => {
   req.flash('success_msg', '你已經成功登出。')
   res.redirect('/users/login')
 })
-// 去註冊頁
+// get views/register.hbs
 router.get('/register', (req, res) => {
   res.render('register')
 })
-// 在 register.hbs 按下 Register btn
+// press Register btn in register.hbs
 router.post('/register', (req, res) => {
   // const { name, email, password, confirmPassword } = req.body
-  const body = req.body
+  const body = { ...req.body }
   const errors = []
-  // if (!body.name) {
-  //   errors.push({ message: '未填 name' })
-  // }
-  if (!body.email) {
-    errors.push({ message: '未填 email' })
+  if (!body.name) {
+    errors.push({ message: 'unfilled Name' })
   }
-  if (!body.password || !body.confirmPassword) {
-    errors.push({ message: '未填 password' })
+  if (!body.account) {
+    errors.push({ message: 'unfilled Account' })
+  }
+  if (!body.password) {
+    errors.push({ message: 'unfilled Password' })
+  }
+  if (!body.confirmPassword) {
+    errors.push({ message: 'unfilled confirmPassword' })
   }
   if (body.password !== body.confirmPassword) {
-    errors.push({ message: '密碼、確認密碼不相符！' })
+    errors.push({ message: 'Password、confirmPassword NOT match' })
   }
   if (errors.length) {
     return res.render('register', { errors, body })
   }
+
+  let userNumber = 0
+  User.find({}).count((error, userCount) => {
+    if (error) {
+      console.error(error)
+    } else {
+      userNumber = userCount
+      // console.log('uN=', userNumber)
+    }
+  })
+
   User.findOne(
     {
-      email: body.email
+      account: body.account
     }
   )
     .then(user => {
       // console.log('register user=', user)
-      if (user !== null) { // 有找到相同 email
-        errors.push({ message: '此 Email 已註冊' })
-        res.render('register', { errors, body }) // 送出表單後不要清空，保留剛剛填的資料
-      } else { // 沒找到相同 email，註冊新 email
-        bcrypt.genSalt(10) // 產生複雜度係數為 10的「鹽」
-          .then(salt => bcrypt.hash(body.password, salt)) // 為使用者密碼「加鹽」，產生雜湊值
+      if (user !== null) { // find a same account
+        errors.push({ message: 'the Email is registered' })
+        res.render('register', { errors, body }) // keep data in fields, dont clear
+      } else { // cant find a same account, register a new account
+        bcrypt.genSalt(10) // saltRounds = 10
+          .then(salt => bcrypt.hash(body.password, salt))
           .then(hash => {
             const newUser = new User({
+              id: userNumber + 1,
               name: body.name,
-              email: body.email,
-              password: hash // 用雜湊值取代原本的使用者密碼
-
+              account: body.account,
+              password: hash // use hash replace password
             })
             newUser.save()
               .then(() => res.redirect('/'))
@@ -78,5 +92,4 @@ router.post('/register', (req, res) => {
     })
 })
 
-// 匯出路由模組
 module.exports = router

@@ -3,12 +3,12 @@ const Schema = mongoose.Schema
 
 const stringOptions = {
   type: String,
-  required: true
+  required: false
 }
 
 const numberOptions = {
   type: Number,
-  required: true
+  required: false
 }
 
 const userSchema = new Schema({
