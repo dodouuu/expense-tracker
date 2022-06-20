@@ -1,0 +1,73 @@
+<div class="w-75 mx-auto mt-5 d-flex justify-content-between">
+
+  <form action="/search" class="form-inline my-2 my-lg-0 d-flex">
+    <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Search 餐廳、分類"
+      aria-label="Search Restaurant" value="{{keywords}}" aria-describedby="search-button" />
+
+    <button class="btn btn-outline-danger my-2 my-sm-0 ms-2" type="submit" id="search-button">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+
+  <a class="btn btn-info" href="/restaurants/new">新增餐廳</a>
+
+  <form action="/sort" method="GET">
+    <label for="sort">Sort By：</label>
+    <select id="sort" name="sortBy">
+      <option value="az" {{#if sortAZ}}selected{{/if}}>A -> Z</option>
+      <option value="za" {{#if sortZA}}selected{{/if}}>Z -> A</option>
+      <option value="category" {{#if sortCat}}selected{{/if}}>分類</option>
+      <option value="location" {{#if sortLoc}}selected{{/if}}>地址</option>
+    </select>
+
+    <button type="submit" class="btn btn-outline-danger ms-2">
+      <span class="me-1">Sort</span>
+      <i class="fa-solid fa-arrow-down-wide-short"></i>
+    </button>
+  </form>
+</div>
+
+
+<!-- restaurant list -->
+<div class="container mt-5">
+  <div class="row">
+    {{#each restaurants}}
+    <div class="col-lg-4 col-md-6 col-sm-12 ">
+      <div class="card mb-3">
+        <a href="/restaurants/{{this._id}}" class="text-secondary">
+          <img class="card-img-top " src="{{this.image}}" alt="{{this.name}}" />
+        </a>
+        <div class="card-body p-3">
+          <h6 class="card-title mb-1">{{this.name}}</h6>
+          <h6 class="card-title mb-1">{{this.name_en}}</h6>
+          <div class="restaurant-category mb-1">
+            <i class="fas fa-utensils pr-2"></i> {{this.category}}
+          </div>
+          <div>
+            <i class="fas fa-map"></i> {{this.location}}
+          </div>
+          <span class="badge rounded-pill bg-danger fw-normal">
+            {{this.rating}}
+            <i class="fa-solid fa-star"></i>
+          </span>
+
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+          <span class="p-2">
+            <a href="./restaurants/{{ this._id }}/edit">Edit</a>
+          </span>
+          <span class="ms-2 p-2">
+            <a href="./restaurants/{{ this._id }}">Detail</a>
+          </span>
+          <form action="./restaurants/{{ this._id }}?_method=DELETE" method="POST" class="ms-2">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+    {{/each}}
+
+  </div>
+</div>
