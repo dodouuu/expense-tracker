@@ -4,6 +4,6 @@ module.exports = {
       return next() // verify successfully
     }
     req.flash('warning_msg', 'Please Login first')
-    res.redirect('/users/login') // verify fallaciously
+    return res.redirect('/users/login') // verify fallaciously
   }
 }

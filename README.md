@@ -4,11 +4,13 @@
 ## 功能列表
 
 1. Login:
-	1. when you arrive, you will see: Please Login first
+	1. before login, you will see: Please Login first
 	2. empty fields, warning: Missing credentials
 	3. if account is not registerd: The Account is not registered!
 	4. wrong password, warning: The Password is incorrect.
 	5. use Facebook Login
+	6. after Log out, you will see: Log out successfully
+	7. if account or password is wrong, they will remain in fields
 
 2. Register:
 	1. if account is registerd, warning: the Account is registered

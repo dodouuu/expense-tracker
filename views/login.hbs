@@ -10,15 +10,16 @@
         <div class="mb-3">
           <label for="account">Account</label>
           <input type="text" id="account" name="account" class="form-control" placeholder="account..."
-          value="{{ account }}">
+            value="{{ userAccount }}">
         </div>
 
         <div class="mb-3">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="form-control" placeholder="password...">
+          <input type="password" id="password" name="password" class="form-control" placeholder="password..."
+            value="{{ userPasswd }}">
         </div>
 
-        <div class="d-grid gap-2">
+        <div class=" d-grid gap-2">
           <button type="submit" class="btn btn-primary">Login</button>
           <a href="/auth/facebook" class="btn btn-info">Facebook Login</a>
         </div>

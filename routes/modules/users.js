@@ -20,10 +20,15 @@ router.post('/login',
   })
 )
 // press Log out btn
-router.get('/logout', (req, res) => {
-  req.logout() // Passport.js function for clear session
-  req.flash('success_msg', 'Log out successfully')
-  res.redirect('/users/login')
+router.post('/logout', (req, res) => {
+  req.logout((error) => { // Passport.js function for clear session
+    if (error) {
+      return next(error)
+    } else {
+      req.flash('success_msg', 'Log out successfully')
+      res.redirect('/users/login')
+    }
+  })
 })
 // get views/register.hbs
 router.get('/register', (req, res) => {
@@ -31,7 +36,6 @@ router.get('/register', (req, res) => {
 })
 // press Register btn in views/register.hbs
 router.post('/register', (req, res) => {
-  // const { name, email, password, confirmPassword } = req.body
   const body = { ...req.body }
   const errors = []
   if (!body.name) {

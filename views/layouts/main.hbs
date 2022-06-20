@@ -24,15 +24,19 @@
     <a class="navbar-brand" href="/">
 
       {{#if isAuthenticated}}
-      {{#if user.name}}
-      {{ user.name }}'s
+      {{#if localUser.name}}
+      {{ localUser.name }}'s
+      {{else}}
+      Papa's
       {{/if}}
       {{/if}}
       Accounting List
     </a>
 
     {{#if isAuthenticated}}
-    <a class="btn btn-info" href="/users/logout">Log out</a>
+    <form action="/users/logout" method="POST">
+      <button type="submit" class="btn btn-info">Log out</button>
+    </form>
     {{else}}
     <a class="btn btn-info" href="/users/login">Log in</a>
     {{/if}}
