@@ -1,15 +1,17 @@
-// 引用 Express
 const express = require('express')
-// 引用 Express 路由器
 const router = express.Router()
 
 // import modules home.js
 const home = require('./modules/home')
 
+// import modules users.js
+const users = require('./modules/users')
 
-// 將網址結構符合 / 字串的 request 導向 home 模組
+// make request url begin with /users direct to modules/users.js
+router.use('/users', users)
+
+// make request url begin with / direct to modules/home.js
 // router.use('/', authenticator, home)
 router.use('/', home)
 
-// 匯出路由器
 module.exports = router

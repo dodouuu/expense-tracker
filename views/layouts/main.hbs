@@ -13,9 +13,6 @@
   {{!-- 6.1.1 --}}
 
   <link href="https://bootswatch.com/5/vapor/bootstrap.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="/stylesheets/style.css">
-
 </head>
 
 <body>
@@ -25,14 +22,13 @@
   <nav class="navbar navbar-light bg-light d-flex justify-content-between sticky-top mx-5 px-5">
 
     <a class="navbar-brand" href="/">
-      <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png" width="30"
-        height="30" class="d-inline-block align-top" alt="我的餐廳清單">
+
       {{#if isAuthenticated}}
       {{#if user.name}}
       {{ user.name }}'s
       {{/if}}
       {{/if}}
-      Restaurant List
+      Accounting List
     </a>
 
     {{#if isAuthenticated}}
