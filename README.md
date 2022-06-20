@@ -1,19 +1,25 @@
 ![cover](https://raw.githubusercontent.com/dodouuu/pictures/main/semester3_A1%20v2.png)
-# Express app - Restaurant List ext CRUD, Login
-打造一個網站來收集另一種愛好：餐廳
-_extended function: _
-_Create_
-_Read_
-_Update_
-_Delete_
-_Login_
-_Register_
-_Login with Facebook_
+# Express app - expense-tracker
 
----
 ## 功能列表
 
-1. 在首頁瀏覽餐廳資料，包含全部餐廳：
+1. Login:
+	1. when you arrive, you will see: Please Login first
+	2. empty fields, warning: Missing credentials
+	3. if account is not registerd: The Account is not registered!
+	4. wrong password, warning: The Password is incorrect.
+	5. use Facebook Login
+
+2. Register:
+	1. if account is registerd, warning: the Account is registered
+	2. empty Name field, warning: unfilled Name
+	3. empty Account field, warning: unfilled Account
+	4. empty Password field, warning: unfilled Password
+	5. empty confirmPassword field, warning: unfilled confirmPassword
+	6. different Password confirmPassword, warning: Password、confirmPassword NOT match
+	7. use Facebook Register
+
+2. 在首頁瀏覽餐廳資料，包含全部餐廳：
     1. 餐廳照片
     2. 餐廳中文名稱、英文名稱
     3. 餐廳分類
@@ -40,18 +46,6 @@ _Login with Facebook_
 	5. 前一次選擇的排序選項會保留下來
 8. 登入前，按左上角【Restaurant List】，顯示：請先登入才能使用！
 
-9. Register：
-	1. 註冊過，顯示：此 Email 已註冊
-  2. empty Name field, warning: unfilled Name
-	3. empty Account field, warning: unfilled Account
-	4. empty Password field, warning: unfilled Password
-5. empty confirmPassword field, warning: unfilled confirmPassword
-	6. different Password confirmPassword, warning: Password、confirmPassword NOT match
-
-10. 登入功能：
-	1. Email不存在，顯示：The email is not registered!
-	2. 密碼錯，顯示：Password incorrect.
-	3. 在 login page 和 register page 都可以使用 Facebook Login
 11. 登入成功後
 	1. 有填 Name 的用戶，例如Joe，左上角會顯示：Joe's Restaurant List
 	2. 沒填 Name 的用戶，左上角會顯示：Restaurant List

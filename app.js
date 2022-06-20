@@ -5,12 +5,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 // require packages
 const express = require('express')
-// const exphbs = require('express-handlebars')
 const { engine } = require('express-handlebars')
 
 const methodOverride = require('method-override')
 const session = require('express-session')
-// 載入設定檔，要寫在 express-session 以後
+// session must before usePassport
 const usePassport = require('./config/passport')
 // 提示訊息 package
 const flash = require('connect-flash')
@@ -44,17 +43,22 @@ app.use(session({
   saveUninitialized: true
 }))
 
+// app.use(session()) must before app.use(passport.session())
+
 // 呼叫 Passport 函式並傳入 app，寫在路由之前
 usePassport(app)
 app.use(flash())
 // 設定本地變數 res.locals：所有 views 內的樣板都可以取用的變數
 app.use((req, res, next) => {
-  // console.log('req.user=', req.user)
-  res.locals.isAuthenticated = req.isAuthenticated() // 把 req.isAuthenticated() 回傳的布林值，交接給 res 使用
+  res.locals.isAuthenticated = req.isAuthenticated()
   res.locals.user = req.user
-  res.locals.success_msg = req.flash('success_msg')  // 設定 success_msg 訊息
-  res.locals.warning_msg = req.flash('warning_msg')  // 設定 warning_msg 訊息
+  // console.log('user=', req.user)
+  res.locals.success_msg = req.flash('success_msg')
+  // success_msg from routes/modules/users.js
+  res.locals.warning_msg = req.flash('warning_msg')
+  // warning_msg from middleware/auth.js
   res.locals.login_error = req.flash('error')
+  // login_error message from config/passport.js
   next()
 })
 

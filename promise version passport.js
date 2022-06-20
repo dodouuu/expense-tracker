@@ -22,33 +22,33 @@ module.exports = app => {
       usernameField: 'account',
       passReqToCallback: true
     },
-    async (req, account, password, done) => {
-      try {
-        const user = await User.findOne({ account })
-        // console.log('passport user=', user)
-        if (user === null) { // account not exist
-          // if first parameter = err => cant reach Database
-          // if first parameter = null => reach Database successfully
-          // if second parameter = false => cant find document in Database
-          // third parameter is for warning message
-          return done(null, false, { message: 'The Account is not registered!' })
-        } else {
-          // user.password is a hashed passwd in Database
-          // password is raw, not hashed
-          // cant compare using ===, need to use bcrypt.compare()
-          const isMatch = await bcrypt.compare(password, user.password)
-
-          if (!isMatch) { // wrong password
-            return done(null, false, { message: 'The Password is incorrect.' })
+    (req, account, password, done) => {
+      User.findOne({ account })
+        .then(user => {
+          // console.log('passport user=', user)
+          if (user === null) { // account not exist
+            // if first parameter = err => cant reach Database
+            // if first parameter = null => reach Database successfully
+            // if second parameter = false => cant find document in Database
+            // third parameter is for warning message
+            return done(null, false, { message: 'The Account is not registered!', account, password })
           } else {
-            return done(null, user)
-            // if second parameter = user => find document successfully
+            // user.password is a hashed passwd in Database
+            // password is raw, not hashed
+            // cant compare using ===, need to use bcrypt.compare()
+            return bcrypt.compare(password, user.password)
+              .then(isMatch => {
+                if (!isMatch) { // wrong password
+                  return done(null, false, { message: 'The Password is incorrect.' })
+                } else {
+                  return done(null, user)
+                  // if second parameter = user => find document successfully
+                }
+              })
           }
+        })
+        .catch(err => done(err))
 
-        }
-      } catch (err) {
-        return done(err)
-      }
     }
   ))
 
@@ -83,11 +83,11 @@ module.exports = app => {
 
   // 設定序列化與反序列化
   passport.serializeUser((user, done) => {
-    // 第二個參數 user._id = MongoDB 預設的 _id
-    done(null, user._id)
+    // 第二個參數 id = MongoDB 預設的 _id
+    done(null, user.id)
   })
-  passport.deserializeUser((_id, done) => {
-    User.findById(_id)
+  passport.deserializeUser((id, done) => {
+    User.findById(id)
       .lean()
       .then(user => done(null, user))
       .catch(err => done(err, null))

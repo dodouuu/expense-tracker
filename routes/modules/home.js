@@ -5,7 +5,7 @@ const router = express.Router()
 // import Record model
 const Record = require('../../models/record')
 
-// 定義首頁路由
+// define home page views/index.hbs route
 router.get('/', (req, res) => {
   res.render('index')
   // const userId = req.user._id
