@@ -19,7 +19,8 @@ const userSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  totalAmount: numberOptions
 })
 
 module.exports = mongoose.model('User', userSchema)

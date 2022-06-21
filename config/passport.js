@@ -91,7 +91,8 @@ module.exports = app => {
               id: userNumber + 1,
               name,
               account: email,
-              password: hash // use hash replace password
+              password: hash, // use hash replace password
+              totalAmount: 0
             }
           )
           return done(null, newUser)

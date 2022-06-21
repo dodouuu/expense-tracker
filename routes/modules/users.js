@@ -7,7 +7,7 @@ const User = require('../../models/user')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
 
-// get views/login.hbs
+// go to views/login.hbs
 router.get('/login', (req, res) => {
   res.render('login')
 })
@@ -33,7 +33,7 @@ router.post('/logout', (req, res) => {
   })
 })
 
-// get views/register.hbs
+// go to views/register.hbs
 router.get('/register', (req, res) => {
   res.render('register')
 })
@@ -87,7 +87,8 @@ router.post('/register', (req, res) => {
                   id: userCount + 1,
                   name: body.name,
                   account: body.account,
-                  password: hash // use hash replace password
+                  password: hash, // use hash replace password
+                  totalAmount: 0
                 })
                 newUser.save()
                   .then(() => res.redirect('/'))

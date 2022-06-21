@@ -1,3 +1,37 @@
+{{!-- category Dropdowns --}}
+<div class="d-flex justify-content-center my-5">
+  <div class="btn-group" style="width: 35%">
+    <span type="button" class="d-flex btn btn-warning" data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="text-dark">類別</span>
+    </span>
+    <button type="button"
+      class="btn btn-warning dropdown-toggle dropdown-toggle-split d-flex flex-row-reverse align-items-center text-dark"
+      data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="visually-hidden">Toggle Dropdown</span>
+    </button>
+
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">家居物業</a></li>
+      <li><a class="dropdown-item" href="#">交通出行</a></li>
+      <li><a class="dropdown-item" href="#">休閒娛樂</a></li>
+      <li><a class="dropdown-item" href="#">餐飲食品</a></li>
+      <li><a class="dropdown-item" href="#">其他</a></li>
+    </ul>
+  </div>
+</div>
+
+{{!-- totalAmount --}}
+<div class="d-flex justify-content-center">
+  <div class="row" style="width: 35%">
+    <div class="col-4 d-flex">
+      <span style="font-size: 1.7vw">總金額 :</span>
+    </div>
+    <div class="col-8 d-flex flex-row-reverse">
+      <span class="text-secondary" style="font-size: 6vw">{{totalAmount}}</span>
+    </div>
+  </div>
+</div>
+
 <div class="w-75 mx-auto mt-5 d-flex justify-content-between">
 
   <form action="/search" class="form-inline my-2 my-lg-0 d-flex">

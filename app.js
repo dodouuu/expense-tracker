@@ -14,6 +14,11 @@ const usePassport = require('./config/passport')
 // Flash message package is about HINT for user
 const flash = require('connect-flash')
 
+// use this package for more complex if (condition)
+// {{#is}}
+const helpers = require('handlebars-helpers')
+const multihelpers = helpers()
+
 const routes = require('./routes')
 require('./config/mongoose')
 const app = express()
@@ -22,8 +27,11 @@ const app = express()
 // if operate in Local host => PORT = 3000
 const PORT = process.env.PORT
 
-// make .handlebars extname to .hbs
-app.engine('hbs', engine({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine('hbs', engine({
+  defaultLayout: 'main',
+  extname: '.hbs', // make .handlebars extname to .hbs
+  helpers: multihelpers
+}))
 app.set('view engine', 'hbs')
 
 app.use(express.static('public')) // setting static files

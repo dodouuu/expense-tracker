@@ -7,11 +7,14 @@ const Record = require('../../models/record')
 router.get('/', async (req, res) => {
 
   try {
+    const totalAmount = req.user.totalAmount
     const userId = req.user.id
+    // console.log('tta=', totalAmount)
     const records = await Record.find({ userId }).lean()
-    res.render('index', { records })
+    // console.log('records array=', records)
+    return res.render('index', { records, totalAmount })
   } catch (error) {
-    console.error(error)
+    return console.error(error)
   }
 
   // const userId = req.user._id

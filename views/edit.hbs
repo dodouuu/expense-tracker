@@ -1,126 +1,127 @@
-<div class="d-flex justify-content-center">
-  <h2 class="bg-info m-3 p-1 rounded">編輯餐廳的頁面</h2>
+<div class="d-flex justify-content-center my-5">
+  <div class="row w-50">
+    <div class="col-3 d-flex align-items-center">
+      <div>*必填欄位</div>
+    </div>
+    <div class="col-9 d-flex justify-content-center">
+      <div class="btn-lg btn btn-outline-secondary text-secondary p-2">請修改你的支出</div>
+    </div>
+  </div>
 </div>
 
-<form action="/restaurants/{{restaurant._id}}?_method=PUT" method="POST" class="was-validated">
+<form action="/records/{{record._id}}?_method=PUT" method="POST" class="was-validated">
 
-  <div>
-    <label for="name" class="m-1">
-      <i class="fa-solid fa-utensils"></i>
-      <span class="ms-2">餐廳中文名稱：</span>
-    </label>
-    <input class="form-control m-2" type="text" placeholder="中文名稱" name="name" value="{{restaurant.name}}" required />
-    <div class="invalid-feedback">
-      <span class="d-flex justify-content-center">餐廳中文名稱必填</span>
-    </div>
-    <div class="valid-feedback">
-      <span class="d-flex justify-content-center">Looks good!</span>
-    </div>
-  </div>
+  {{!-- expense name --}}
+  <div class="d-flex justify-content-center my-5">
+    <div class="row w-50">
 
-  <div>
-    <label for="name_en" class="m-1">
-      <i class="fa-solid fa-language"></i>
-      <span class="ms-2">餐廳英文名稱：</span>
-    </label>
-    <input class="form-control m-2" type="text" placeholder="English name" name="name_en" value="{{restaurant.name_en}}"
-      required />
-    <div class="invalid-feedback">
-      <span class="d-flex justify-content-center">餐廳英文名稱必填</span>
-    </div>
-    <div class="valid-feedback">
-      <span class="d-flex justify-content-center">Looks good!</span>
+      <div class="col-3 d-flex align-items-center">
+        <label for="name" class="m-1">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="ms-2">名稱* :</span>
+        </label>
+      </div>
+
+      <div class="col-9">
+        <input id="name" class="form-control" type="text" placeholder="支出名稱" name="name" value="{{record.name}}"
+          required />
+
+        <div class="valid-feedback">
+          <span class="d-flex justify-content-center">Looks good!</span>
+        </div>
+        <div class="invalid-feedback">
+          <span class="d-flex justify-content-center">支出名稱必填</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div>
-    <label for="restaurantCategory" class="m-1">
-      <i class="fa-solid fa-globe"></i>
-      <span class="ms-2">餐廳分類：</span>
-    </label>
-    <input class="m-2 form-control" type="text" list="restaurantCategories" id="restaurantCategory" name="category"
-      value="{{restaurant.category}}" placeholder="Type or choose category from Dropdowns" required />
-    <datalist id="restaurantCategories">
-      <option value="中東料理" />
-      <option value="日本料理" />
-      <option value="義式餐廳" />
-      <option value="美式" />
-      <option value="酒吧" />
-      <option value="咖啡" />
-    </datalist>
-    <div class="invalid-feedback">
-      <span class="d-flex justify-content-center">餐廳分類必填</span>
-    </div>
-    <div class="valid-feedback">
-      <span class="d-flex justify-content-center">Looks good!</span>
-    </div>
-  </div>
+  {{!-- expense date --}}
+  <div class="d-flex justify-content-center mb-5">
+    <div class="row w-50">
+      <div class="col-3 d-flex align-items-center">
+        <label for="date" class="m-1">
+          <i class="fa-solid fa-calendar-days"></i>
+          <span class="ms-2">日期* :</span>
+        </label>
+      </div>
 
-  <label for="image" class="m-1">
-    <i class="fa-solid fa-camera-retro"></i>
-    <span class="ms-2">餐廳照片：</span>
-  </label>
-  <input class="form-control m-2" type="text" placeholder="圖片網址 https://" name="image" value="{{restaurant.image}}" />
+      <div class="col-9">
+        <input id="date" class="form-control" type="date" name="date" value="{{recordDate}}" required />
 
-  <div>
-    <label for="location" class="m-1">
-      <i class="fa-solid fa-location-dot"></i>
-      <span class="ms-2">餐廳地址：</span>
-    </label>
-    <input class="form-control m-2" type="text" placeholder="OO市OO區..." name="location" value="{{restaurant.location}}"
-      required />
-    <div class="invalid-feedback">
-      <span class="d-flex justify-content-center">餐廳地址必填</span>
-    </div>
-    <div class="valid-feedback">
-      <span class="d-flex justify-content-center">Looks good!</span>
+        <div class="valid-feedback">
+          <span class="d-flex justify-content-center">Looks good!</span>
+        </div>
+
+        <div class="invalid-feedback">
+          <span class="d-flex justify-content-center">日期必選</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <label for="phone" class="m-1">
-    <i class="fa-solid fa-phone-volume"></i>
-    <span class="ms-2">餐廳電話：</span>
-  </label>
-  <input class="form-control m-2" type="text" placeholder="882 5252" name="phone" value="{{restaurant.phone}}" />
+  {{!-- expense category --}}
+  <div class="d-flex justify-content-center mb-5">
+    <div class="row w-50">
+      <div class="col-3 d-flex align-items-center">
+        <label for="category" class="m-1">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span class="ms-2">類別* :</span>
+        </label>
+      </div>
 
-  <div>
-    <label for="google_map" class="m-1">
-      <i class="fa-solid fa-map"></i>
-      <span class="ms-2">Google Map 網址：</span>
-    </label>
-    <input class="form-control m-2" type="text" placeholder="https://www.google.com.tw/maps/place/..." name="google_map"
-      value="{{restaurant.google_map}}" required />
-    <div class="invalid-feedback">
-      <span class="d-flex justify-content-center">Google Map 網址必填</span>
-    </div>
-    <div class="valid-feedback">
-      <span class="d-flex justify-content-center">Looks good!</span>
+      <div class="col-9">
+        <select class="form-select form-select-lg " name="category" id="category" required>
+          <option value="">Select</option>
+          <option value="1" {{#is record.categoryId 1}}selected{{/is}}>家居物業</option>
+          <option value="2" {{#is record.categoryId 2}}selected{{/is}}>交通出行</option>
+          <option value="3" {{#is record.categoryId 3}}selected{{/is}}>休閒娛樂</option>
+          <option value="4" {{#is record.categoryId 4}}selected{{/is}}>餐飲食品</option>
+          <option value="5" {{#is record.categoryId 5}}selected{{/is}}>其他</option>
+        </select>
+        <div class="valid-feedback">
+          <span class="d-flex justify-content-center">Looks good!</span>
+        </div>
+
+        <div class="invalid-feedback">
+          <span class="d-flex justify-content-center">類別必選</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="mx-1 my-3">
-    <label for="rating">
-      <i class="fa-solid fa-ranking-star"></i>
-      <span class="ms-2">餐廳評分：</span>
-    </label>
-    <input type="range" min="0" max="5" step="0.1" name="rating" id="rating" value="{{restaurant.rating}}"
-      oninput="document.getElementById('showRating').textContent=value"
-      onchange="document.getElementById('showRating').textContent=value" />
-    <span id="showRating"></span>
+  {{!-- expense amount --}}
+  <div class="d-flex justify-content-center mb-5">
+    <div class="row w-50">
+      <div class="col-3 d-flex align-items-center">
+        <label for="amount" class="m-1">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+          <span class="ms-2">金額* :</span>
+        </label>
+      </div>
+
+      <div class="col-9">
+        <input id="amount" class="form-control" type="number" placeholder="123" name="amount" value="{{record.amount}}"
+          required />
+
+        <div class="valid-feedback">
+          <span class="d-flex justify-content-center">Looks good!</span>
+        </div>
+        <div class="invalid-feedback">
+          <span class="d-flex justify-content-center">金額必填</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <label for="description" class="m-1">
-    <i class="fa-solid fa-baby-carriage"></i>
-    <span class="ms-2">餐廳描述：</span>
-  </label>
-  <textarea id="description" class="m-2 form-control" type="text" rows="3" cols="40" placeholder="可以帶貓狗嗎？如何收費？"
-    name="description">{{restaurant.description}}</textarea>
-
-  <div class="d-flex justify-content-center">
-    <button type="submit" class="btn btn-info btn-lg m-2">Save</button>
-    <a href="/">
-      <button type="button" class="btn btn-info btn-lg m-2">返回首頁</button>
-    </a>
+  {{!-- update btn for PUT /records/_id --}}
+  <div class="d-flex justify-content-center mb-5">
+    <div class="w-50 row d-flex flex-row-reverse">
+      <div class="col-9">
+        <button type="submit" class="form-control btn btn-info btn-lg">送出</button>
+      </div>
+    </div>
   </div>
 
 </form>
