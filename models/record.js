@@ -19,11 +19,20 @@ const recordSchema = new Schema({
     required: false
   },
   amount: numberOptions,
-  userId: {
-    type: Number,
-    ref: 'User'
+  userId: numberOptions,
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    index: true,
+    required: true
   },
-  categoryId: numberOptions
+  categoryId: numberOptions,
+  category_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    index: true,
+    required: false
+  }
 })
 
 module.exports = mongoose.model('Record', recordSchema)

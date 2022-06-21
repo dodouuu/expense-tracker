@@ -3,7 +3,7 @@ const router = express.Router()
 // import Record model
 const Record = require('../../models/record')
 
-// define home page views/index.hbs route
+// go to home page views/index.hbs
 router.get('/', async (req, res) => {
 
   try {

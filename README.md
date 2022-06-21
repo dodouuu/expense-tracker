@@ -1,5 +1,8 @@
 ![cover](https://raw.githubusercontent.com/dodouuu/pictures/main/semester3_A1%20v2.png)
-# Express app - expense-tracker
+# Express app: expense-tracker
+
+## Routes
+
 
 ## 功能列表
 
@@ -20,6 +23,9 @@
 	5. empty confirmPassword field, warning: unfilled confirmPassword
 	6. different Password confirmPassword, warning: Password、confirmPassword NOT match
 	7. use Facebook Register
+
+3. CRUD:
+1. create
 
 2. 在首頁瀏覽餐廳資料，包含全部餐廳：
     1. 餐廳照片

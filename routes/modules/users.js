@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs')
 router.get('/login', (req, res) => {
   res.render('login')
 })
+
 // press Login btn in views/login.hbs
 router.post('/login',
   passport.authenticate('local', {
@@ -19,6 +20,7 @@ router.post('/login',
     failureFlash: true
   })
 )
+
 // press Log out btn
 router.post('/logout', (req, res) => {
   req.logout((error) => { // Passport.js function for clear session
@@ -30,10 +32,12 @@ router.post('/logout', (req, res) => {
     }
   })
 })
+
 // get views/register.hbs
 router.get('/register', (req, res) => {
   res.render('register')
 })
+
 // press Register btn in views/register.hbs
 router.post('/register', (req, res) => {
   const body = { ...req.body }
