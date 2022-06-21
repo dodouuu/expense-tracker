@@ -55,7 +55,15 @@ router.get('/:id', async (req, res) => {
 })
 
 // go to edit.hbs of an expense
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', async (req, res) => {
+  try {
+    const userId = req.user.id
+    const record_id = req.params.id
+    const record = await Record.findOne({ record_id, userId })
+    res.render('edit', { record })
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 module.exports = router
