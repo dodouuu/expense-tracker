@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 // import Record model
 const Record = require('../../models/record')
+const moment = require('moment')
 
 // go to home page views/index.hbs
 router.get('/', async (req, res) => {
@@ -12,6 +13,7 @@ router.get('/', async (req, res) => {
     // console.log('tta=', totalAmount)
     const records = await Record.find({ userId }).lean()
     // console.log('records array=', records)
+
     return res.render('index', { records, totalAmount })
   } catch (error) {
     return console.error(error)

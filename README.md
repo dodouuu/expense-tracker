@@ -6,6 +6,8 @@
 
 ## 功能列表
 
+1. you can always click 家庭記帳本 on Navbar to go back to home page
+
 1. Login:
 	1. before login, you will see: Please Login first
 	2. empty fields, warning: Missing credentials
@@ -25,7 +27,7 @@
 	7. use Facebook Register
 
 3. CRUD:
-1. create
+  1. create
 
 2. 在首頁瀏覽餐廳資料，包含全部餐廳：
     1. 餐廳照片

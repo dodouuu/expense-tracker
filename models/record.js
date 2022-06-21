@@ -18,6 +18,7 @@ const recordSchema = new Schema({
     type: Date,
     required: false
   },
+  formattedDate: stringOptions,
   amount: numberOptions,
   userId: numberOptions,
   user_id: {

@@ -34,8 +34,9 @@ router.post('/', async (req, res) => {
     const id = recordNumber + 1
     const { name, date, category, amount } = req.body
     const categoryId = Number(category)
+    const formattedDate = moment(date).format('YYYY/MM/DD')
 
-    await Record.create({ id, name, date, amount, userId, user_id, categoryId })
+    await Record.create({ id, name, date, formattedDate, amount, userId, user_id, categoryId })
 
     const user = await User.findOne({ id: userId })
     user.totalAmount += Number(amount)
