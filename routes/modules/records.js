@@ -24,6 +24,7 @@ router.get('/new', (req, res) => {
   const today = getToday()
   return res.render('new', { today })
 })
+const isString = val => typeof val === 'string'
 
 // create New expense
 router.post('/', async (req, res) => {
@@ -32,8 +33,7 @@ router.post('/', async (req, res) => {
     const user_id = req.user._id
     const recordNumber = await Record.find({ user_id }).countDocuments()
     const id = recordNumber + 1
-    const { name, date, category, amount } = req.body
-    const categoryId = Number(category)
+    const { name, date, categoryId, amount } = req.body
     const formattedDate = moment(date).format('YYYY/MM/DD')
 
     await Record.create({ id, name, date, formattedDate, amount, userId, user_id, categoryId })
@@ -81,6 +81,22 @@ router.get('/:id/edit', async (req, res) => {
 // Update an expense
 router.put('/:id', async (req, res) => {
   try {
+    const userId = req.user.id
+    const record_id = req.params.id
+    const filter = { _id: record_id, userId }
+    const newRecord = { ...req.body }
+    newRecord.formattedDate = moment(req.body.date).format('YYYY/MM/DD')
+    // Update user.totalAmount
+    const oldRecord = await Record.findOne(filter)
+    const diffAmount = newRecord.amount - oldRecord.amount
+    if (diffAmount !== 0) {
+      const user = await User.findOne({ id: userId })
+      user.totalAmount += diffAmount
+      await user.save()
+    }
+
+    await Record.findOneAndUpdate(filter, newRecord, { new: true })
+    return res.redirect('/')
   } catch (error) {
     return console.error(error)
   }

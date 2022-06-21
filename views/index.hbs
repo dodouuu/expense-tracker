@@ -54,15 +54,21 @@
 {{!-- expenses list --}}
 <div class="d-flex justify-content-end">
   <div class="row" style="width: 70%">
-    {{!-- <div class="d-flex flex-column align-items-center">
-
-    </div> --}}
     {{#each records}}
     <div class="col-6 ">
 
-      <div class="row bg-info bg-opacity-50 mb-5">
+      <div class="row bg-info bg-opacity-50">
         <div class="col-3 d-flex flex-column justify-content-center">
-          <i class="fa-solid fa-face-grin-beam" style="font-size: 5vw"></i>
+          {{#is this.categoryId 1}}
+          <i class="text-warning fa-solid fa-house" style="font-size: 5vw"></i>{{/is}}
+          {{#is this.categoryId 2}}
+          <i class="text-warning fa-solid fa-van-shuttle" style="font-size: 5vw"></i>{{/is}}
+          {{#is this.categoryId 3}}
+          <i class="text-warning fa-solid fa-face-grin-beam" style="font-size: 5vw"></i>{{/is}}
+          {{#is this.categoryId 4}}
+          <i class="text-warning fa-solid fa-utensils" style="font-size: 5vw"></i>{{/is}}
+          {{#is this.categoryId 5}}
+          <i class="text-warning fa-solid fa-pen" style="font-size: 5vw"></i>{{/is}}
         </div>
         <div class="col-7 pb-3">
           <div style="font-size: 4vw">{{this.name}}</div>
@@ -75,7 +81,7 @@
 
     </div>
 
-    <div class="col-6 d-flex justify-content-center align-items-center mb-5">
+    <div class="col-6 d-flex justify-content-center align-items-center">
       <div>
         <a class="me-5 text-decoration-none" href="./records/{{this._id}}/edit">
           <span class="me-2" style="font-size: 2vw">修改</span>
@@ -92,11 +98,10 @@
     </div>
     {{/each}}
   </div>
-
 </div>
 
 {{!-- go to new.hbs --}}
-<div class="d-flex justify-content-end mb-5">
+<div class="d-flex justify-content-end my-5">
   <div class="row" style="width: 70%">
     <div class="col-6 d-flex justify-content-center">
       <a class="btn btn-secondary" href="/records/new" style="width: 70%; font-size: 1.5vw">新增支出</a>

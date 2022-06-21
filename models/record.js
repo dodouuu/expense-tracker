@@ -27,13 +27,7 @@ const recordSchema = new Schema({
     index: true,
     required: true
   },
-  categoryId: numberOptions,
-  category_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category',
-    index: true,
-    required: false
-  }
+  categoryId: numberOptions
 })
 
 module.exports = mongoose.model('Record', recordSchema)

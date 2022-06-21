@@ -20,7 +20,12 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  totalAmount: numberOptions
+  totalAmount: numberOptions,
+  homeAmount: numberOptions,
+  transportAmount: numberOptions,
+  recreationAmount: numberOptions,
+  foodAmount: numberOptions,
+  otherAmount: numberOptions
 })
 
 module.exports = mongoose.model('User', userSchema)
