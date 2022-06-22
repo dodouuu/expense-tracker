@@ -7,7 +7,11 @@
 
         <span type="button" class="d-flex btn btn-warning" data-bs-toggle="dropdown" aria-expanded="false">
           <span class="text-dark" style="font-size: 1.2vw">
+            {{#if selectedCategory}}
+            {{selectedCategory}}
+            {{else}}
             類別
+            {{/if}}
           </span>
         </span>
         <button type="button"
@@ -17,11 +21,12 @@
         </button>
 
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">家居物業</a></li>
-          <li><a class="dropdown-item" href="#">交通出行</a></li>
-          <li><a class="dropdown-item" href="#">休閒娛樂</a></li>
-          <li><a class="dropdown-item" href="#">餐飲食品</a></li>
-          <li><a class="dropdown-item" href="#">其他</a></li>
+          <li><a class="dropdown-item" href="./home">家居物業</a></li>
+          <li><a class="dropdown-item" href="./transport">交通出行</a></li>
+          <li><a class="dropdown-item" href="./recreation">休閒娛樂</a></li>
+          <li><a class="dropdown-item" href="./food">餐飲食品</a></li>
+          <li><a class="dropdown-item" href="./other">其他</a></li>
+          <li><a class="dropdown-item" href="./all">全部類別</a></li>
         </ul>
 
       </div>

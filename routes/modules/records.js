@@ -89,7 +89,7 @@ router.put('/:id', async (req, res) => {
     const newRecord = { ...req.body }
     newRecord.formattedDate = moment(req.body.date).format('YYYY/MM/DD')
 
-    // update totalAmount and categoryAmount
+    // update totalAmount and categoryAmount of User model
     const oldRecord = await Record.findOne(filter)
     const oldAmount = oldRecord.amount
     const newAmount = Number(newRecord.amount) // if dont use Number(), error will occur when update negative number
@@ -131,7 +131,7 @@ router.delete('/:id', async (req, res) => {
     const record_id = req.params.id
     const filter = { _id: record_id, userId }
 
-    // update totalAmount and categoryAmount
+    // update totalAmount and categoryAmount of User model
     const oldRecord = await Record.findOne(filter)
     const oldCatId = oldRecord.categoryId
     const oldAmount = oldRecord.amount
