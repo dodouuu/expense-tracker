@@ -102,7 +102,7 @@ end recordSeeder
 ```
 npm run dev
 ```
-9. 確認 Terminal 顯示
+9. 確認 Terminal 顯示以下資訊，代表啟動成功，打開瀏覽器，在網址列輸入http://localhost:3000
 ```
 [nodemon] 2.0.16
 [nodemon] to restart at any time, enter `rs`
@@ -112,7 +112,6 @@ npm run dev
 App is running on http://localhost:3000
 mongoDB connected!
 ```
-代表啟動成功，打開瀏覽器，在網址列輸入http://localhost:3000
 10. 停止伺服器
 ```
 ctrl + C
