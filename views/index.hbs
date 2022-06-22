@@ -1,12 +1,14 @@
 {{!-- category Dropdowns --}}
-<div class="d-flex justify-content-end my-5">
-  <div class="row" style="width: 70%">
-    <div class="col-6 padding0">
+<div class="d-flex justify-content-end my-5 ">
+  <div class=" margin0" style="width: 70%">
+    <div class=" padding0" style="width: 62%">
 
       <div class="btn-group" style="width: 100%">
 
         <span type="button" class="d-flex btn btn-warning" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="text-dark">類別</span>
+          <span class="text-dark" style="font-size: 1.2vw">
+            類別
+          </span>
         </span>
         <button type="button"
           class="btn btn-warning dropdown-toggle dropdown-toggle-split d-flex flex-row-reverse align-items-center text-dark"
@@ -25,16 +27,16 @@
       </div>
 
     </div>
-    <div class="col-6 "></div>
+    {{!-- <div class="col-4 "></div> --}}
   </div>
 </div>
 
 {{!-- totalAmount --}}
-<div class="d-flex justify-content-end">
-  <div class="row" style="width: 70%">
-    <div class="col-6 padding0">
+<div class="d-flex justify-content-end mb-3">
+  <div class="margin0" style="width: 70%">
+    <div class="padding0">
 
-      <div class="row">
+      <div class="row" style="width: 64%">
         <div class="col-4 d-flex">
           <span style="font-size: 1.7vw">總金額 :</span>
         </div>
@@ -42,10 +44,6 @@
           <span class="text-secondary" style="font-size: 6vw">{{totalAmount}}</span>
         </div>
       </div>
-
-    </div>
-    <div class="col-6">
-
     </div>
   </div>
 
@@ -53,51 +51,56 @@
 
 {{!-- expenses list --}}
 <div class="d-flex justify-content-end">
-  <div class="row" style="width: 70%">
-    {{#each records}}
-    <div class="col-6 ">
+  <table class="table table-striped bg-primary bg-opacity-75" style="width: 70%">
+    <tbody>
+      {{#each records}}
+      <tr class="">
 
-      <div class="row bg-info bg-opacity-50">
-        <div class="col-3 d-flex flex-column justify-content-center">
-          {{#is this.categoryId 1}}
-          <i class="text-warning fa-solid fa-house" style="font-size: 5vw"></i>{{/is}}
-          {{#is this.categoryId 2}}
-          <i class="text-warning fa-solid fa-van-shuttle" style="font-size: 5vw"></i>{{/is}}
-          {{#is this.categoryId 3}}
-          <i class="text-warning fa-solid fa-face-grin-beam" style="font-size: 5vw"></i>{{/is}}
-          {{#is this.categoryId 4}}
-          <i class="text-warning fa-solid fa-utensils" style="font-size: 5vw"></i>{{/is}}
-          {{#is this.categoryId 5}}
-          <i class="text-warning fa-solid fa-pen" style="font-size: 5vw"></i>{{/is}}
-        </div>
-        <div class="col-7 pb-3">
+        <th class="align-middle">
+          <div class="d-flex justify-content-center">
+            {{#is this.categoryId 1}}
+            <i class="text-warning fa-solid fa-house" style="font-size: 5vw"></i>{{/is}}
+            {{#is this.categoryId 2}}
+            <i class="text-warning fa-solid fa-van-shuttle" style="font-size: 5vw"></i>{{/is}}
+            {{#is this.categoryId 3}}
+            <i class="text-warning fa-solid fa-face-grin-beam" style="font-size: 5vw"></i>{{/is}}
+            {{#is this.categoryId 4}}
+            <i class="text-warning fa-solid fa-utensils" style="font-size: 5vw"></i>{{/is}}
+            {{#is this.categoryId 5}}
+            <i class="text-warning fa-solid fa-pen" style="font-size: 5vw"></i>{{/is}}
+          </div>
+        </th>
+
+        <td class="pb-3">
           <div style="font-size: 4vw">{{this.name}}</div>
           <div style="font-size: 1vw">{{this.formattedDate}}</div>
-        </div>
-        <div class="col-2 d-flex flex-column justify-content-center" style="font-size: 2vw">
-          <span>{{this.amount}}</span>
-        </div>
-      </div>
+        </td>
 
-    </div>
+        <td class="align-middle " style="font-size: 2.3vw">
+          <div class="d-flex justify-content-end me-5">
+            <span>{{this.amount}}</span>
+          </div>
+        </td>
 
-    <div class="col-6 d-flex justify-content-center align-items-center">
-      <div>
-        <a class="me-5 text-decoration-none" href="./records/{{this._id}}/edit">
-          <span class="me-2" style="font-size: 2vw">修改</span>
-          <i class="fa-solid fa-file-pen" style="font-size: 2vw"></i>
-        </a>
+        <td class="bg-body align-middle ">
+          <a class="text-decoration-none d-flex justify-content-end align-items-center"
+            href="./records/{{this._id}}/edit">
+            <span class="me-2" style="font-size: 2vw">修改</span>
+            <i class="fa-solid fa-file-pen" style="font-size: 2vw"></i>
+          </a>
+        </td>
 
-        <a href="/records/new" class="text-decoration-none">
-          <span class="me-2" style="font-size: 2vw">刪除</span>
-          <i class="fa-solid fa-trash-arrow-up" style="font-size: 2vw"></i>
-        </a>
+        <td class="bg-body align-middle">
+          <a href="/records/new" class="text-decoration-none">
+            <span class="me-2" style="font-size: 2vw">刪除</span>
+            <i class="fa-solid fa-trash-arrow-up" style="font-size: 2vw"></i>
+          </a>
+        </td>
 
-      </div>
-
-    </div>
-    {{/each}}
-  </div>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
 
 {{!-- go to new.hbs --}}

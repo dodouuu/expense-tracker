@@ -21,11 +21,13 @@ const userSchema = new Schema({
     default: Date.now
   },
   totalAmount: numberOptions,
-  homeAmount: numberOptions,
-  transportAmount: numberOptions,
-  recreationAmount: numberOptions,
-  foodAmount: numberOptions,
-  otherAmount: numberOptions
+  categoryAmount: [Number]
+  // homeAmount: numberOptions,
+  // transportAmount: numberOptions,
+  // recreationAmount: numberOptions,
+  // foodAmount: numberOptions,
+  // otherAmount: numberOptions,
+
 })
 
 module.exports = mongoose.model('User', userSchema)

@@ -38,7 +38,9 @@ router.post('/', async (req, res) => {
 
     await Record.create({ id, name, date, formattedDate, amount, userId, user_id, categoryId })
 
+    // update categoryAmount and totalAmount
     const user = await User.findOne({ id: userId })
+    user.categoryAmount[categoryId - 1] += Number(amount)
     user.totalAmount += Number(amount)
     await user.save()
 
@@ -86,12 +88,32 @@ router.put('/:id', async (req, res) => {
     const filter = { _id: record_id, userId }
     const newRecord = { ...req.body }
     newRecord.formattedDate = moment(req.body.date).format('YYYY/MM/DD')
-    // Update user.totalAmount
+
+    // update totalAmount and categoryAmount
     const oldRecord = await Record.findOne(filter)
-    const diffAmount = newRecord.amount - oldRecord.amount
+    const oldAmount = oldRecord.amount
+    const newAmount = Number(newRecord.amount) // if dont use Number(), error will occur when update negative number
+    const diffAmount = newAmount - oldAmount
+    // console.log('diff=', diffAmount)
+    // console.log('newA=', newAmount)
+    // console.log('oldA=', oldAmount)
+
+    // sometimes, user just change categoryId but not amount
+    const oldCatId = oldRecord.categoryId
+    const newCatId = newRecord.categoryId
+    // console.log('newCat=', newCatId)
+    // console.log('oldCat=', oldCatId)
+    const user = await User.findOne({ id: userId })
+    if (oldCatId !== newCatId) {
+      user.categoryAmount[oldCatId - 1] -= oldAmount
+      user.categoryAmount[newCatId - 1] += newAmount
+      await user.save()
+    }
     if (diffAmount !== 0) {
-      const user = await User.findOne({ id: userId })
       user.totalAmount += diffAmount
+      if (oldCatId === newCatId) {
+        user.categoryAmount[newCatId - 1] += diffAmount
+      }
       await user.save()
     }
 
