@@ -26,7 +26,7 @@ router.get('/new', (req, res) => {
 })
 const isString = val => typeof val === 'string'
 
-// create New expense
+// Create a New expense
 router.post('/', async (req, res) => {
   try {
     const userId = req.user.id
@@ -118,6 +118,29 @@ router.put('/:id', async (req, res) => {
     }
 
     await Record.findOneAndUpdate(filter, newRecord, { new: true })
+    return res.redirect('/')
+  } catch (error) {
+    return console.error(error)
+  }
+})
+
+// Delete an expense
+router.delete('/:id', async (req, res) => {
+  try {
+    const userId = req.user.id
+    const record_id = req.params.id
+    const filter = { _id: record_id, userId }
+
+    // update totalAmount and categoryAmount
+    const oldRecord = await Record.findOne(filter)
+    const oldCatId = oldRecord.categoryId
+    const oldAmount = oldRecord.amount
+    const user = await User.findOne({ id: userId })
+    user.categoryAmount[oldCatId - 1] -= oldAmount
+    user.totalAmount -= oldAmount
+    await user.save()
+    await Record.findOneAndDelete(filter)
+
     return res.redirect('/')
   } catch (error) {
     return console.error(error)

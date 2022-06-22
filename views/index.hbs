@@ -57,26 +57,26 @@
       <tr class="">
 
         <th class="align-middle">
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-center" style="font-size: 4vw">
             {{#is this.categoryId 1}}
-            <i class="text-warning fa-solid fa-house" style="font-size: 5vw"></i>{{/is}}
+            <i class="text-warning fa-solid fa-house"></i>{{/is}}
             {{#is this.categoryId 2}}
-            <i class="text-warning fa-solid fa-van-shuttle" style="font-size: 5vw"></i>{{/is}}
+            <i class="text-warning fa-solid fa-van-shuttle"></i>{{/is}}
             {{#is this.categoryId 3}}
-            <i class="text-warning fa-solid fa-face-grin-beam" style="font-size: 5vw"></i>{{/is}}
+            <i class="text-warning fa-solid fa-face-grin-beam"></i>{{/is}}
             {{#is this.categoryId 4}}
-            <i class="text-warning fa-solid fa-utensils" style="font-size: 5vw"></i>{{/is}}
+            <i class="text-warning fa-solid fa-utensils"></i>{{/is}}
             {{#is this.categoryId 5}}
-            <i class="text-warning fa-solid fa-pen" style="font-size: 5vw"></i>{{/is}}
+            <i class="text-warning fa-solid fa-pen"></i>{{/is}}
           </div>
         </th>
 
         <td class="pb-3">
-          <div style="font-size: 4vw">{{this.name}}</div>
+          <div style="font-size: 2vw">{{this.name}}</div>
           <div style="font-size: 1vw">{{this.formattedDate}}</div>
         </td>
 
-        <td class="align-middle " style="font-size: 2.3vw">
+        <td class="align-middle" style="font-size: 2vw">
           <div class="d-flex justify-content-end me-5">
             <span>{{this.amount}}</span>
           </div>
@@ -84,17 +84,26 @@
 
         <td class="bg-body align-middle ">
           <a class="text-decoration-none d-flex justify-content-end align-items-center"
-            href="./records/{{this._id}}/edit">
-            <span class="me-2" style="font-size: 2vw">修改</span>
-            <i class="fa-solid fa-file-pen" style="font-size: 2vw"></i>
+            href="./records/{{this._id}}/edit" style="font-size: 1.5vw">
+            <span class="me-2">修改</span>
+            <i class="fa-solid fa-file-pen"></i>
           </a>
         </td>
 
         <td class="bg-body align-middle">
-          <a href="/records/new" class="text-decoration-none">
+          {{!-- <a href="/records/new" class="text-decoration-none">
             <span class="me-2" style="font-size: 2vw">刪除</span>
             <i class="fa-solid fa-trash-arrow-up" style="font-size: 2vw"></i>
-          </a>
+          </a> --}}
+
+          <form action="./records/{{ this._id }}?_method=DELETE" method="POST" class="d-flex align-items-center"
+            style="font-size: 1.5vw">
+            <button type="submit" class="btn btn-outline-none" style="font-size: 1.5vw">
+              刪除
+              <i class="fa-solid fa-trash-arrow-up"></i>
+            </button>
+
+          </form>
         </td>
 
       </tr>
