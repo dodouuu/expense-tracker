@@ -26,14 +26,14 @@
 	7. use Facebook Register
 
 4. CRUD:
-  1. Create
-  2. Update
-  3. Delete
+	1. Create
+	2. Update
+	3. Delete
 
 5. 根據「類別」篩選支出；總金額的計算只會包括被篩選出來的支出總和
 
 ---
-安裝
+## 安裝與執行
 1. 從 Terminal (command line interface) 移動到想存放專案的位置，執行：
 ```
 git clone https://github.com/dodouuu/expense-tracker.git
@@ -102,7 +102,7 @@ end recordSeeder
 ```
 npm run dev
 ```
-9. 確認 Terminal 顯示
+9. 確認 Terminal 顯示以下資訊，代表啟動成功，打開瀏覽器，在網址列輸入http://localhost:3000
 ```
 [nodemon] 2.0.16
 [nodemon] to restart at any time, enter `rs`
@@ -112,9 +112,7 @@ npm run dev
 App is running on http://localhost:3000
 mongoDB connected!
 ```
-代表啟動成功，打開瀏覽器，在網址列輸入http://localhost:3000
-
-9. 停止伺服器
+10. 停止伺服器
 ```
 ctrl + C
 ```
