@@ -42,9 +42,9 @@ router.get('/register', (req, res) => {
 router.post('/register', (req, res) => {
   const body = { ...req.body }
   const errors = []
-  if (!body.name) {
-    errors.push({ message: 'unfilled Name' })
-  }
+  // if (!body.name) {
+  //   errors.push({ message: 'unfilled Name' })
+  // }
   if (!body.account) {
     errors.push({ message: 'unfilled Account' })
   }
@@ -90,11 +90,6 @@ router.post('/register', (req, res) => {
                   password: hash, // use hash replace password
                   totalAmount: 0,
                   categoryAmount: [0, 0, 0, 0, 0]
-                  // homeAmount: 0,
-                  // transportAmount: 0,
-                  // recreationAmount: 0,
-                  // foodAmount: 0,
-                  // otherAmount: 0
                 })
                 newUser.save()
                   .then(() => res.redirect('/'))

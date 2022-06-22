@@ -18,7 +18,7 @@ function getToday() {
     padTo2Digits(today.getDate()),
   ].join('-')
 }
-const isString = val => typeof val === 'string'
+
 // go to views/new.hbs
 router.get('/new', (req, res) => {
   const today = getToday()

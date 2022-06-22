@@ -94,11 +94,6 @@ module.exports = app => {
               password: hash, // use hash replace password
               totalAmount: 0,
               categoryAmount: [0, 0, 0, 0, 0]
-              // homeAmount: 0,
-              // transportAmount: 0,
-              // recreationAmount: 0,
-              // foodAmount: 0,
-              // otherAmount: 0
             }
           )
           return done(null, newUser)

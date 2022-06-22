@@ -13,7 +13,10 @@ const numberOptions = {
 
 const userSchema = new Schema({
   id: numberOptions,
-  name: stringOptions,
+  name: {
+    type: String,
+    required: false
+  },
   account: stringOptions,
   password: stringOptions,
   createdAt: {
@@ -22,12 +25,6 @@ const userSchema = new Schema({
   },
   totalAmount: numberOptions,
   categoryAmount: [Number]
-  // homeAmount: numberOptions,
-  // transportAmount: numberOptions,
-  // recreationAmount: numberOptions,
-  // foodAmount: numberOptions,
-  // otherAmount: numberOptions,
-
 })
 
 module.exports = mongoose.model('User', userSchema)
