@@ -3,12 +3,12 @@ const Schema = mongoose.Schema
 
 const stringOptions = {
   type: String,
-  required: false
+  required: true
 }
 
 const numberOptions = {
   type: Number,
-  required: false
+  required: true
 }
 
 const recordSchema = new Schema({
@@ -16,7 +16,7 @@ const recordSchema = new Schema({
   name: stringOptions,
   date: {
     type: Date,
-    required: false
+    required: true
   },
   formattedDate: stringOptions,
   amount: numberOptions,

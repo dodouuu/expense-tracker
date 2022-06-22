@@ -18,23 +18,25 @@ function getToday() {
     padTo2Digits(today.getDate()),
   ].join('-')
 }
-
+const isString = val => typeof val === 'string'
 // go to views/new.hbs
 router.get('/new', (req, res) => {
   const today = getToday()
   return res.render('new', { today })
 })
-const isString = val => typeof val === 'string'
 
 // Create a New expense
 router.post('/', async (req, res) => {
   try {
     const userId = req.user.id
     const user_id = req.user._id
-    const recordNumber = await Record.find({ user_id }).countDocuments()
-    const id = recordNumber + 1
+
     const { name, date, categoryId, amount } = req.body
     const formattedDate = moment(date).format('YYYY/MM/DD')
+
+    // find maxId of Record and let new id = maxId + 1
+    const maxRecord = await Record.find({ userId }).sort({ id: -1 }).limit(1)
+    id = Number(maxRecord.map(u => u.id)) + 1
 
     await Record.create({ id, name, date, formattedDate, amount, userId, user_id, categoryId })
 
