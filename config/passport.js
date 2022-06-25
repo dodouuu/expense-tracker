@@ -11,54 +11,55 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 
 module.exports = app => {
-  // initialize Passport module
+  // initialize Passport middleware
   app.use(passport.initialize())
   app.use(passport.session())
 
   // set LocalStrategy
-  passport.use(new LocalStrategy(
-    {
-      // make default verify username to account
-      usernameField: 'account',
-      passReqToCallback: true
-    },
-    async (req, account, password, done) => {
-      try {
-        const user = await User.findOne({ account })
-        // console.log('passport user=', user)
-        if (user === null) { // account not exist
+  const customFields = {
+    // make default verify username to account
+    usernameField: 'account',
+    // passwordField: 'pw',
+    passReqToCallback: true
+  }
+  const verifyCallback = async (req, account, password, done) => {
+    try {
+      const user = await User.findOne({ account })
+      // console.log('passport user=', user)
+      if (user === null) { // account not exist
+
+        req.flash('wrongAccont', account) // keep account in field of views/login.hbs
+        req.flash('wrongPasswd', password) // keep password in field of views/login.hbs
+
+        return done(null, false, { message: 'The Account is not registered!' })
+        // if first parameter of done() = error => cant reach Database or something wrong
+        // if first parameter = null => reach Database successfully
+        // if second parameter = false => cant find document in Database
+        // third parameter is for warning message
+      } else {
+        // user.password is a hashed passwd in Database
+        // password is raw, not hashed
+        // cant compare using ===, need to use bcrypt.compare()
+        const isValid = await bcrypt.compare(password, user.password)
+
+        if (!isValid) { // wrong password
 
           req.flash('wrongAccont', account) // keep account in field of views/login.hbs
           req.flash('wrongPasswd', password) // keep password in field of views/login.hbs
 
-          return done(null, false, { message: 'The Account is not registered!' })
-          // if first parameter of done() = error => cant reach Database or something wrong
-          // if first parameter = null => reach Database successfully
-          // if second parameter = false => cant find document in Database
-          // third parameter is for warning message
+          return done(null, false, { message: 'The Password is incorrect.' })
         } else {
-          // user.password is a hashed passwd in Database
-          // password is raw, not hashed
-          // cant compare using ===, need to use bcrypt.compare()
-          const isMatch = await bcrypt.compare(password, user.password)
-
-          if (!isMatch) { // wrong password
-
-            req.flash('wrongAccont', account) // keep account in field of views/login.hbs
-            req.flash('wrongPasswd', password) // keep password in field of views/login.hbs
-
-            return done(null, false, { message: 'The Password is incorrect.' })
-          } else {
-            return done(null, user)
-            // if second parameter = user => find document successfully
-          }
-
+          return done(null, user)
+          // if second parameter = user => find document successfully
         }
-      } catch (error) {
-        return done(error)
+
       }
+    } catch (error) {
+      return done(error)
     }
-  ))
+  }
+  const localStrategy = new LocalStrategy(customFields, verifyCallback)
+  passport.use(localStrategy)
 
   // set FacebookStrategy
   passport.use(new FacebookStrategy(

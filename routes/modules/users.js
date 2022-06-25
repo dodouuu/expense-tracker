@@ -23,6 +23,7 @@ router.post('/login',
 
 // press Log out btn
 router.post('/logout', (req, res) => {
+  // delete request.session.passport.user
   req.logout((error) => { // Passport.js function for clear session
     if (error) {
       return next(error)

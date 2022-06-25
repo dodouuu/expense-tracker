@@ -51,7 +51,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
-// app.use(session()) must before app.use(passport.session())
+// app.use(session()) must before app.use(passport.session()) in config/passport.js
 
 // usePassport must before routes
 usePassport(app)
@@ -89,7 +89,9 @@ app.use((req, res, next) => {
   next()
 })
 
+// after all middlewares
 app.use(routes)
+// before error handler
 
 // start and listen on the Express server
 app.listen(PORT, () => {

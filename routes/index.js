@@ -10,7 +10,8 @@ const records = require('./modules/records')
 
 // import routes/modules/auth.js
 const auth = require('./modules/auth')
-// import middleware/auth.js
+
+// import middleware/auth.js to protect user's private data
 const { authenticator } = require('../middleware/auth')
 
 // make request url begin with /users direct to routes/modules/users.js
