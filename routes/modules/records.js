@@ -56,10 +56,8 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const userId = req.user.id
-    // const user_id = req.user._id
     const record_id = req.params.id
     const record = await Record.findOne({ _id: record_id, userId }).lean()
-    // console.log('go to detail page of record=', record)
     return res.render('detail', { record })
   } catch (error) {
     return console.error(error)
@@ -72,10 +70,7 @@ router.get('/:id/edit', async (req, res) => {
     const userId = req.user.id
     const record_id = req.params.id
     const record = await Record.findOne({ _id: record_id, userId }).lean()
-    // console.log('go to edit of record=', record)
-    // console.log('date=', record.date)
     const recordDate = moment(record.date).format('YYYY-MM-DD')
-    // console.log('moment date=', recordDate)
     return res.render('edit', { record, recordDate })
   } catch (error) {
     return console.error(error)
@@ -93,22 +88,16 @@ router.put('/:id', async (req, res) => {
 
     // update totalAmount and categoryAmount of User model
     const oldRecord = await Record.findOne(filter)
-    const oldAmount = oldRecord.amount
-    const newAmount = Number(newRecord.amount) // if dont use Number(), error will occur when update negative number
-    const diffAmount = newAmount - oldAmount
-    // console.log('diff=', diffAmount)
-    // console.log('newA=', newAmount)
-    // console.log('oldA=', oldAmount)
+    // if dont use Number(), error will occur when update negative number
+    const diffAmount = Number(newRecord.amount) - oldRecord.amount
 
     // sometimes, user just change categoryId but not amount
     const oldCatId = oldRecord.categoryId
     const newCatId = newRecord.categoryId
-    // console.log('newCat=', newCatId)
-    // console.log('oldCat=', oldCatId)
     const user = await User.findOne({ id: userId })
     if (oldCatId !== newCatId) {
-      user.categoryAmount[oldCatId - 1] -= oldAmount
-      user.categoryAmount[newCatId - 1] += newAmount
+      user.categoryAmount[oldCatId - 1] -= oldRecord.amount
+      user.categoryAmount[newCatId - 1] += Number(newRecord.amount)
       await user.save()
     }
     if (diffAmount !== 0) {

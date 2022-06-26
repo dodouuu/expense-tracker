@@ -85,7 +85,6 @@ db.once('open', async () => {
     newUser2.totalAmount += Number(220)
     await newUser2.save()
 
-
     maxId++
     // transform dateStr to date.toISOString()
     dateStr = '2015-04-01'

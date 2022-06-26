@@ -68,36 +68,28 @@ router.post('/register', (req, res) => {
     }
   )
     .then(user => {
-      // console.log('register user=', user)
       if (user !== null) { // find a same account
         errors.push({ message: 'the Account is registered' })
         res.render('register', { errors, body }) // keep data in fields, dont clear
       } else { // account not exist
         // register a new account
         // gen id = userCount + 1
-        User.find({}).count((error, userCount) => {
-          if (error) {
-            console.error(error)
-          } else {
-            // console.log('uC=', userCount)
+        bcrypt.genSalt(10) // saltRounds = 10
+          .then(salt => bcrypt.hash(body.password, salt))
+          .then(hash => {
+            const newUser = new User({
+              name: body.name,
+              account: body.account,
+              password: hash, // use hash replace password
+              totalAmount: 0,
+              categoryAmount: [0, 0, 0, 0, 0]
+            })
+            newUser.save()
+              .then(() => res.redirect('/'))
+              .catch(error => console.error(error))
+          })
 
-            bcrypt.genSalt(10) // saltRounds = 10
-              .then(salt => bcrypt.hash(body.password, salt))
-              .then(hash => {
-                const newUser = new User({
-                  id: userCount + 1,
-                  name: body.name,
-                  account: body.account,
-                  password: hash, // use hash replace password
-                  totalAmount: 0,
-                  categoryAmount: [0, 0, 0, 0, 0]
-                })
-                newUser.save()
-                  .then(() => res.redirect('/'))
-                  .catch(error => console.error(error))
-              })
-          }
-        })
+
       }
     })
 })
