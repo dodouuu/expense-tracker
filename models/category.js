@@ -13,7 +13,9 @@ const numberOptions = {
 
 const categorySchema = new Schema({
   id: numberOptions,
-  name: stringOptions
+  name: stringOptions,
+  name_en: stringOptions,
+  fontawesomeStr: stringOptions
 })
 
 module.exports = mongoose.model('Category', categorySchema)

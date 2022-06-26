@@ -4,6 +4,7 @@ const router = express.Router()
 const Record = require('../../models/record')
 // const moment = require('moment')
 const User = require('../../models/user')
+const Category = require('../../models/category')
 
 // go to home page views/index.hbs
 router.get('/', async (req, res) => {
@@ -11,9 +12,7 @@ router.get('/', async (req, res) => {
   try {
     const totalAmount = req.user.totalAmount
     const userId = req.user.id
-    // console.log('tta=', totalAmount)
     const records = await Record.find({ userId }).lean()
-    // console.log('records array=', records)
 
     return res.render('index', { records, totalAmount })
   } catch (error) {
@@ -23,6 +22,7 @@ router.get('/', async (req, res) => {
 
 // individual category expenses
 router.get('/:category', async (req, res) => {
+  if (req.params.category === 'favicon.ico') return
   try {
     const userId = req.user.id
     const user = await User.findOne({ id: userId })
@@ -30,22 +30,9 @@ router.get('/:category', async (req, res) => {
     const record_category = req.params.category
     let record_categoryId = -1
     let selectedCategory = ''
-    if (record_category === 'home') {
-      record_categoryId = 0
-      selectedCategory = '家居物業'
-    } else if (record_category === 'transport') {
-      record_categoryId = 1
-      selectedCategory = '交通出行'
-    } else if (record_category === 'recreation') {
-      record_categoryId = 2
-      selectedCategory = '休閒娛樂'
-    } else if (record_category === 'food') {
-      record_categoryId = 3
-      selectedCategory = '餐飲食品'
-    } else if (record_category === 'other') {
-      record_categoryId = 4
-      selectedCategory = '其他'
-    } else if (record_category === 'all') {
+    const cat = await Category.findOne({ name_en: record_category }).lean()
+
+    if (cat === null) { // user choose all
       selectedCategory = '全部類別'
       const records = await Record.find({ userId }).lean()
       return res.render('index', {
@@ -53,6 +40,9 @@ router.get('/:category', async (req, res) => {
         totalAmount: user.totalAmount,
         selectedCategory
       })
+    } else {
+      record_categoryId = cat.id - 1
+      selectedCategory = cat.name
     }
 
     const filter = { categoryId: record_categoryId + 1, userId }

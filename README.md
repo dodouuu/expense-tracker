@@ -47,22 +47,7 @@ cd expense-tracker
 macOS 請至nvm 的 GitHub 頁面：https://github.com/creationix/nvm。安裝 nvm
 Windows 請至nvm 的 GitHub 頁面：https://github.com/coreybutler/nvm-windows/releases。安裝 nvm
 nvm i 14.16.0
-npm i express
-npm i nodemon
-npm i express-handlebars
-npm i mongoose
-npm i body-parser
-npm i method-override
-npm i dotenv
-npm i express-session
-npm i passport
-npm i passport-local
-npm i passport-facebook
-npm i connect-flash
-npm i bcryptjs
-npm i moment
-npm i handlebars-helpers
-npm i standard --save-dev
+npm i 
 ```
 4. 如果使用雲端資料庫
 	1. 開啟 MongoDB Atlas
@@ -94,6 +79,9 @@ npm run seed
 ```
 7. 確認 Terminal 顯示
 ```
+mongoDB connected!
+start categorySeeder
+end categorySeeder
 mongoDB connected!
 start recordSeeder
 end recordSeeder
@@ -137,3 +125,4 @@ ctrl + C
 16. passport-local 1.0.0
 17. Font-awesome 6.1.1
 18. Bootstrap 5 bootswatch
+19. mongoose-sequence 5.3.1

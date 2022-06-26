@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 const stringOptions = {
   type: String,
@@ -12,7 +13,6 @@ const numberOptions = {
 }
 
 const userSchema = new Schema({
-  id: numberOptions,
   name: {
     type: String,
     required: false
@@ -26,7 +26,7 @@ const userSchema = new Schema({
   totalAmount: numberOptions,
   categoryAmount: [Number]
 })
-
+userSchema.plugin(AutoIncrement, { inc_field: 'id' })
 module.exports = mongoose.model('User', userSchema)
 // mongoose SchemaType
 // String

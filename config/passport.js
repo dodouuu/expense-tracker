@@ -25,7 +25,6 @@ module.exports = app => {
   const verifyCallback = async (req, account, password, done) => {
     try {
       const user = await User.findOne({ account })
-      // console.log('passport user=', user)
       if (user === null) { // account not exist
 
         req.flash('wrongAccont', account) // keep account in field of views/login.hbs
@@ -83,13 +82,8 @@ module.exports = app => {
           const salt = await bcrypt.genSalt(10) // saltRounds = 10
           const hash = await bcrypt.hash(randomPassword, salt)
 
-          // gen id = userNumber + 1
-          const userNumber = await User.find({}).countDocuments()
-          // console.log('uN=', userNumber)
-
           const newUser = await User.create(
             {
-              id: userNumber + 1,
               name,
               account: email,
               password: hash, // use hash replace password
