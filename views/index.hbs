@@ -56,19 +56,12 @@
     <tbody>
       {{#each records}}
       <tr class="">
-
+        {{allCat}}
         <th class="align-middle">
           <div class="d-flex justify-content-center" style="font-size: 4vw">
-            {{#is this.categoryId 1}}
-            <i class="text-warning fa-solid fa-house"></i>{{/is}}
-            {{#is this.categoryId 2}}
-            <i class="text-warning fa-solid fa-van-shuttle"></i>{{/is}}
-            {{#is this.categoryId 3}}
-            <i class="text-warning fa-solid fa-face-grin-beam"></i>{{/is}}
-            {{#is this.categoryId 4}}
-            <i class="text-warning fa-solid fa-utensils"></i>{{/is}}
-            {{#is this.categoryId 5}}
-            <i class="text-warning fa-solid fa-pen"></i>{{/is}}
+
+            <i class="text-warning {{this.fontawesomeStr}}"></i>
+
           </div>
         </th>
 
