@@ -82,7 +82,7 @@ router.post('/register', (req, res) => {
               account: body.account,
               password: hash, // use hash replace password
               totalAmount: 0,
-              categoryAmount: [0, 0, 0, 0, 0]
+              categoryAmount: [0, 0, 0, 0, 0, 0]
             })
             newUser.save()
               .then(() => res.redirect('/'))

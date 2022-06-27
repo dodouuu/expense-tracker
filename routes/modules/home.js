@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     const records = await Record.find({ userId }).lean()
     const allCat = await Category.find().lean()
     records.map(record => {
-      record.fontawesomeStr = allCat[record.categoryId - 1].fontawesomeStr
+      record.fontawesomeStr = allCat[record.categoryId].fontawesomeStr
     })
 
     return res.render('index', { records, totalAmount })
@@ -39,7 +39,7 @@ router.get('/:category', async (req, res) => {
       selectedCategory = '全部類別'
       const records = await Record.find({ userId }).lean()
       records.map(record => {
-        record.fontawesomeStr = allCat[record.categoryId - 1].fontawesomeStr
+        record.fontawesomeStr = allCat[record.categoryId].fontawesomeStr
       })
       return res.render('index', {
         records,
@@ -52,11 +52,11 @@ router.get('/:category', async (req, res) => {
     const filter = { categoryId: cat.id, userId }
     const records = await Record.find(filter).lean()
     records.map(record => {
-      record.fontawesomeStr = allCat[record.categoryId - 1].fontawesomeStr
+      record.fontawesomeStr = allCat[record.categoryId].fontawesomeStr
     })
     return res.render('index', {
       records,
-      totalAmount: user.categoryAmount[cat.id - 1],
+      totalAmount: user.categoryAmount[cat.id],
       selectedCategory
     })
   } catch (error) {

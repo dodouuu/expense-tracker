@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
 
     // update categoryAmount and totalAmount
     const user = await User.findOne({ id: userId })
-    user.categoryAmount[categoryId - 1] += Number(amount)
+    user.categoryAmount[categoryId] += Number(amount)
     user.totalAmount += Number(amount)
     await user.save()
 
@@ -96,14 +96,14 @@ router.put('/:id', async (req, res) => {
     const newCatId = newRecord.categoryId
     const user = await User.findOne({ id: userId })
     if (oldCatId !== newCatId) {
-      user.categoryAmount[oldCatId - 1] -= oldRecord.amount
-      user.categoryAmount[newCatId - 1] += Number(newRecord.amount)
+      user.categoryAmount[oldCatId] -= oldRecord.amount
+      user.categoryAmount[newCatId] += Number(newRecord.amount)
       await user.save()
     }
     if (diffAmount !== 0) {
       user.totalAmount += diffAmount
       if (oldCatId === newCatId) {
-        user.categoryAmount[newCatId - 1] += diffAmount
+        user.categoryAmount[newCatId] += diffAmount
       }
       await user.save()
     }
@@ -127,7 +127,7 @@ router.delete('/:id', async (req, res) => {
     const oldCatId = oldRecord.categoryId
     const oldAmount = oldRecord.amount
     const user = await User.findOne({ id: userId })
-    user.categoryAmount[oldCatId - 1] -= oldAmount
+    user.categoryAmount[oldCatId] -= oldAmount
     user.totalAmount -= oldAmount
     await user.save()
     await Record.findOneAndDelete(filter)
