@@ -5,6 +5,7 @@ const router = express.Router()
 const Record = require('../../models/record')
 const moment = require('moment')
 const User = require('../../models/user')
+const Category = require('../../models/category')
 
 // two functions for <input type="date" default value = today
 function padTo2Digits(num) {
@@ -41,8 +42,9 @@ router.post('/', async (req, res) => {
     await Record.create({ id, name, date, formattedDate, amount, userId, user_id, categoryId })
 
     // update categoryAmount and totalAmount
+    const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
     const user = await User.findOne({ id: userId })
-    user.categoryAmount[categoryId] += Number(amount)
+    user.categoryAmount[allCat.findIndex(e => e.id === Number(categoryId))] += Number(amount)
     user.totalAmount += Number(amount)
     await user.save()
 
@@ -92,18 +94,20 @@ router.put('/:id', async (req, res) => {
     const diffAmount = Number(newRecord.amount) - oldRecord.amount
 
     // sometimes, user just change categoryId but not amount
+    const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
     const oldCatId = oldRecord.categoryId
-    const newCatId = newRecord.categoryId
+    const newCatId = Number(newRecord.categoryId)
     const user = await User.findOne({ id: userId })
+
     if (oldCatId !== newCatId) {
-      user.categoryAmount[oldCatId] -= oldRecord.amount
-      user.categoryAmount[newCatId] += Number(newRecord.amount)
+      user.categoryAmount[allCat.findIndex(e => e.id === oldCatId)] -= oldRecord.amount
+      user.categoryAmount[allCat.findIndex(e => e.id === newCatId)] += Number(newRecord.amount)
       await user.save()
     }
     if (diffAmount !== 0) {
       user.totalAmount += diffAmount
       if (oldCatId === newCatId) {
-        user.categoryAmount[newCatId] += diffAmount
+        user.categoryAmount[allCat.findIndex(e => e.id === newCatId)] += diffAmount
       }
       await user.save()
     }
@@ -123,11 +127,12 @@ router.delete('/:id', async (req, res) => {
     const filter = { _id: record_id, userId }
 
     // update totalAmount and categoryAmount of User model
+    const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
     const oldRecord = await Record.findOne(filter)
     const oldCatId = oldRecord.categoryId
     const oldAmount = oldRecord.amount
     const user = await User.findOne({ id: userId })
-    user.categoryAmount[oldCatId] -= oldAmount
+    user.categoryAmount[allCat.findIndex(e => e.id === oldCatId)] -= oldAmount
     user.totalAmount -= oldAmount
     await user.save()
     await Record.findOneAndDelete(filter)

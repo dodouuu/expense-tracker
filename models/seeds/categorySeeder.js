@@ -8,12 +8,6 @@ const Category = require('../category')
 const CATEGORY =
   [
     {
-      name: 'a',
-      name_en: 'a',
-      id: 0,
-      fontawesomeStr: 'a'
-    },
-    {
       name: '家居物業',
       name_en: 'home',
       id: 1,
@@ -48,7 +42,7 @@ const CATEGORY =
 db.once('open', async () => {
   try {
     console.log('start categorySeeder')
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i < 5; i++) {
       await Category.create({
         id: CATEGORY[i].id,
         name: CATEGORY[i].name,

@@ -13,9 +13,9 @@ router.get('/', async (req, res) => {
     const totalAmount = req.user.totalAmount
     const userId = req.user.id
     const records = await Record.find({ userId }).lean()
-    const allCat = await Category.find().lean()
+    const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
     records.map(record => {
-      record.fontawesomeStr = allCat[record.categoryId].fontawesomeStr
+      record.fontawesomeStr = allCat.find(element => element.id === record.categoryId).fontawesomeStr
     })
 
     return res.render('index', { records, totalAmount })
@@ -32,14 +32,14 @@ router.get('/:category', async (req, res) => {
     const user = await User.findOne({ id: userId })
 
     let selectedCategory = ''
-    const cat = await Category.findOne({ name_en: req.params.category }).lean()
-    const allCat = await Category.find().lean()
+    const viewCat = await Category.findOne({ name_en: req.params.category }).lean() // category user want to view
+    const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
 
-    if (cat === null) { // user choose all
+    if (viewCat === null) { // user choose all
       selectedCategory = '全部類別'
       const records = await Record.find({ userId }).lean()
       records.map(record => {
-        record.fontawesomeStr = allCat[record.categoryId].fontawesomeStr
+        record.fontawesomeStr = allCat.find(element => element.id === record.categoryId).fontawesomeStr
       })
       return res.render('index', {
         records,
@@ -47,16 +47,16 @@ router.get('/:category', async (req, res) => {
         selectedCategory
       })
     } else {
-      selectedCategory = cat.name
+      selectedCategory = viewCat.name
     }
-    const filter = { categoryId: cat.id, userId }
+    const filter = { categoryId: viewCat.id, userId }
     const records = await Record.find(filter).lean()
     records.map(record => {
-      record.fontawesomeStr = allCat[record.categoryId].fontawesomeStr
+      record.fontawesomeStr = allCat.find(element => element.id === record.categoryId).fontawesomeStr
     })
     return res.render('index', {
       records,
-      totalAmount: user.categoryAmount[cat.id],
+      totalAmount: user.categoryAmount[allCat.findIndex(e => e.id === viewCat.id)],
       selectedCategory
     })
   } catch (error) {
