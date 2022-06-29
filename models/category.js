@@ -5,7 +5,6 @@ const stringOptions = {
   type: String,
   required: true
 }
-
 const numberOptions = {
   type: Number,
   required: true

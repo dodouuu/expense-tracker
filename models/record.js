@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
+
 const Schema = mongoose.Schema
 
 const stringOptions = {
@@ -12,7 +14,6 @@ const numberOptions = {
 }
 
 const recordSchema = new Schema({
-  id: numberOptions,
   name: stringOptions,
   date: {
     type: Date,
@@ -20,16 +21,20 @@ const recordSchema = new Schema({
   },
   formattedDate: stringOptions,
   amount: numberOptions,
-  userId: numberOptions,
-  user_id: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     index: true,
     required: true
   },
-  categoryId: numberOptions
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    index: true,
+    required: true
+  }
 })
-
+recordSchema.plugin(AutoIncrement, { inc_field: 'id' })
 module.exports = mongoose.model('Record', recordSchema)
 // mongoose SchemaType
 // String

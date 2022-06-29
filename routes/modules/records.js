@@ -29,22 +29,19 @@ router.get('/new', (req, res) => {
 // Create a New expense
 router.post('/', async (req, res) => {
   try {
-    const userId = req.user.id
-    const user_id = req.user._id
+    const userId = req.user._id
 
     const { name, date, categoryId, amount } = req.body
     const formattedDate = moment(date).format('YYYY/MM/DD')
 
-    // find maxId of Record and let new id = maxId + 1
-    const maxRecord = await Record.find({ userId }).sort({ id: -1 }).limit(1)
-    id = Number(maxRecord.map(u => u.id)) + 1
+    const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
+    const newCat = await Category.findOne({ id: categoryId })
 
-    await Record.create({ id, name, date, formattedDate, amount, userId, user_id, categoryId })
+    await Record.create({ name, date, formattedDate, amount, userId, categoryId: newCat._id })
 
     // update categoryAmount and totalAmount
-    const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
-    const user = await User.findOne({ id: userId })
-    user.categoryAmount[allCat.findIndex(e => e.id === Number(categoryId))] += Number(amount)
+    const user = await User.findOne({ _id: userId })
+    user.categoryAmount[allCat.findIndex(e => e._id.equals(newCat._id))] += Number(amount)
     user.totalAmount += Number(amount)
     await user.save()
 
@@ -54,24 +51,14 @@ router.post('/', async (req, res) => {
   }
 })
 
-// go to detail.hbs of an expense
-router.get('/:id', async (req, res) => {
-  try {
-    const userId = req.user.id
-    const record_id = req.params.id
-    const record = await Record.findOne({ _id: record_id, userId }).lean()
-    return res.render('detail', { record })
-  } catch (error) {
-    return console.error(error)
-  }
-})
-
 // go to edit.hbs of an expense
 router.get('/:id/edit', async (req, res) => {
   try {
-    const userId = req.user.id
+    const userId = req.user._id
     const record_id = req.params.id
     const record = await Record.findOne({ _id: record_id, userId }).lean()
+    const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
+    record.categoryId = allCat.find(e => e._id.equals(record.categoryId)).id
     const recordDate = moment(record.date).format('YYYY-MM-DD')
     return res.render('edit', { record, recordDate })
   } catch (error) {
@@ -82,32 +69,35 @@ router.get('/:id/edit', async (req, res) => {
 // Update an expense
 router.put('/:id', async (req, res) => {
   try {
-    const userId = req.user.id
+    const userId = req.user._id
     const record_id = req.params.id
     const filter = { _id: record_id, userId }
     const newRecord = { ...req.body }
     newRecord.formattedDate = moment(req.body.date).format('YYYY/MM/DD')
+    newRecord.amount = Number(newRecord.amount)
 
     // update totalAmount and categoryAmount of User model
     const oldRecord = await Record.findOne(filter)
     // if dont use Number(), error will occur when update negative number
-    const diffAmount = Number(newRecord.amount) - oldRecord.amount
+    const diffAmount = newRecord.amount - oldRecord.amount
 
     // sometimes, user just change categoryId but not amount
     const allCat = await Category.find().lean() // name, id,fontawesomeStr of all category
-    const oldCatId = oldRecord.categoryId
-    const newCatId = Number(newRecord.categoryId)
-    const user = await User.findOne({ id: userId })
 
-    if (oldCatId !== newCatId) {
-      user.categoryAmount[allCat.findIndex(e => e.id === oldCatId)] -= oldRecord.amount
-      user.categoryAmount[allCat.findIndex(e => e.id === newCatId)] += Number(newRecord.amount)
+    const oldCatId = oldRecord.categoryId
+    const newCatId = allCat.find(e => e.id === Number(newRecord.categoryId))._id
+    newRecord.categoryId = newCatId
+    const user = await User.findOne({ _id: userId })
+
+    if (!oldCatId.equals(newCatId)) {
+      user.categoryAmount[allCat.findIndex(e => e._id.equals(oldCatId))] -= oldRecord.amount
+      user.categoryAmount[allCat.findIndex(e => e._id.equals(newCatId))] += Number(newRecord.amount)
       await user.save()
     }
     if (diffAmount !== 0) {
       user.totalAmount += diffAmount
-      if (oldCatId === newCatId) {
-        user.categoryAmount[allCat.findIndex(e => e.id === newCatId)] += diffAmount
+      if (oldCatId.equals(newCatId)) {
+        user.categoryAmount[allCat.findIndex(e => e._id.equals(newCatId))] += diffAmount
       }
       await user.save()
     }
@@ -122,7 +112,7 @@ router.put('/:id', async (req, res) => {
 // Delete an expense
 router.delete('/:id', async (req, res) => {
   try {
-    const userId = req.user.id
+    const userId = req.user._id
     const record_id = req.params.id
     const filter = { _id: record_id, userId }
 
@@ -131,8 +121,8 @@ router.delete('/:id', async (req, res) => {
     const oldRecord = await Record.findOne(filter)
     const oldCatId = oldRecord.categoryId
     const oldAmount = oldRecord.amount
-    const user = await User.findOne({ id: userId })
-    user.categoryAmount[allCat.findIndex(e => e.id === oldCatId)] -= oldAmount
+    const user = await User.findOne({ _id: userId })
+    user.categoryAmount[allCat.findIndex(e => e._id.equals(oldCatId))] -= oldAmount
     user.totalAmount -= oldAmount
     await user.save()
     await Record.findOneAndDelete(filter)
