@@ -41,7 +41,6 @@ const CATEGORY =
 
 db.once('open', async () => {
   try {
-    console.log('start categorySeeder')
     for (let i = 0; i < 5; i++) {
       await Category.create({
         id: CATEGORY[i].id,
@@ -50,7 +49,6 @@ db.once('open', async () => {
         fontawesomeStr: CATEGORY[i].fontawesomeStr
       })
     }
-    console.log('end categorySeeder')
     process.exit()
   } catch (error) {
     return console.error(error)

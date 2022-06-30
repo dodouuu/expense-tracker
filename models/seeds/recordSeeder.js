@@ -12,12 +12,12 @@ const db = require('../../config/mongoose')
 const SEED_USER = [
   {
     name: '廣志',
-    email: 'user1@example.com',
+    account: 'user1@example.com',
     password: '12345678'
   },
   {
     name: '小新',
-    email: 'user2@example.com',
+    account: 'user2@example.com',
     password: '12345678'
   }
 ]
@@ -67,14 +67,11 @@ const SEED_RECORD = [
 
 db.once('open', async () => {
   try {
-    console.log('start recordSeeder')
-
     for (const user of SEED_USER) {
       const salt = await bcrypt.genSalt(10) // saltRounds = 10
       const hash = await bcrypt.hash(user.password, salt)
       await User.create({
-        name: user.name,
-        account: user.email,
+        ...user,
         password: hash, // use hash replace password
         totalAmount: 0,
         categoryAmount: [0, 0, 0, 0, 0]
@@ -94,8 +91,6 @@ db.once('open', async () => {
       user.totalAmount += Number(amount)
       await user.save()
     }
-
-    console.log('end recordSeeder')
     process.exit()
   } catch (error) {
     return console.error(error)

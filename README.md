@@ -80,11 +80,7 @@ npm run seed
 7. 確認 Terminal 顯示
 ```
 mongoDB connected!
-start categorySeeder
-end categorySeeder
 mongoDB connected!
-start recordSeeder
-end recordSeeder
 ```
 8. 執行
 ```
